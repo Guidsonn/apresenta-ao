@@ -1,0 +1,316 @@
+#Importando a biblioteca random
+import random
+#Lista usada para armazenar as letras que o usário digitar
+digitadas = []
+#Valor inicial da pontuação, que pode ser alterada
+pontos = 8
+#Chances que o jogador tem para adivinhar a palavra
+chances = 6
+#Palavras da categoria comida. OBS: Se a palavra possuir uma letra com o ~ o usuário deve escrever caso contrário ele vai errar
+tema_comida_pt = ['MACARRÃO','FEIJÃO','BANANA','YAKISOBA']
+#Dicas da categoria comida
+dica_comida_pt = ['Esta relacionado a uma comida italiana','Uma comida rica em ferro','Comida favorita dos macacos','Comida oriental']
+#Palavras da categoria países. OBS: Se a palavra possuir uma letra com o ~ o usuário deve escrever caso contrário ele vai errar
+tema_paises_pt = ['BRASIL', 'CANADÁ', 'JAPÃO', 'ISLÂNDIA', 'SUÍÇA']
+#Dicas da categoria países
+dica_paises_pt = ['Tem como um dos seus grandes eventos o Rock in Rio', 'Possui uma taxa de mortalidade baixa', 'Suas animações são conhecidas por outro nome, Anime', 'O país mais seguro do mundo', 'País conhecido pelos seus famosos Bancos']
+#Palavras da categoria veículos. OBS: Se a palavra possuir uma letra com o ~ o usuário deve escrever caso contrário ele vai errar
+tema_veiculos_pt = ['CARRO','NAVIO','SUBMARINO','TANQUE','AVIÃO']
+#Dicas da categoira veículos
+dica_veiculos_pt = ['Um veiculo rodoviário','Um veiculo hidroviário','Veiculo utilizado para armazenar ou lançar misseís nucleares','Em vez de ter pneus ele tem esteiras para se locomover','Utilizado muito de suas vezes para transportar cargas''\n'' ou pessoas em uma grande distância e em pouco tempo']
+#Este while é reponsavel pela tela inicial do jogo e também responsável pelo inicio do programa ou a parada do programa
+while True:
+    print('-='*20)
+    print('             JOGO DA FORCA')
+    print('\n''>Iniciar''\n''>Sair')
+    print('-='*20)
+    #Comando só recebe as palavras Iniciar ou Sair
+    comando = str(input(''))
+    #Se o comando for iniciar ele vai executar tudo que esta dentro deste if
+    if comando in ['Iniciar','iniciar']:
+        print('-='*20)
+        #Pedir o nome do jogador
+        nome_usuario = str(input('Informe seu nome jogador:  '))
+        print('-='*20)
+        #Categorias do jogo
+        print('           Categorias ' '\n' '\n' '- Comida            - Veículos' '\n' '- País              ')
+        print('-='*20)
+        #Tema vai ser responsável de perguntar qual categoria das expostas o usuário vai esolher
+        tema = str(input('Informe o tema desejado: '))
+        #Se ele escolher comida, o programa irá então executar tudo que está desse if
+        if tema in ['Comida', 'comida']:
+            #var_p1 vai receber uma palavra aleatória da lista tema_comida_pt e armazena-la
+            var_p1 = random.choice(tema_comida_pt)
+            #dica vai ser usado para armazenar o indice que se encontra a palavra aleatória na sua lista
+            dica = tema_comida_pt.index(var_p1)
+            #xd vai ser a palavra secreta inicial com o intuito de utilizar apenas uma vez, por motivos de ilustrar inicialmente
+            xd = ''
+            #Este for vai ser usado para gerar os "*" e atribuir a xd
+            for letra_inicial in var_p1:
+                xd+='*'
+            print('-='*20)
+            #Apresentando a palavra secreta
+            print(f'Esta é a palavra secreta: {xd}')
+            #Apresentando os pontos
+            print(f'Você tem: {pontos} pontos')
+            #Apresentando as chances
+            print(f'Você tem: {chances} chances')
+            #While responsável pelo jogo da forca
+            while True:
+                print('-='*20)
+                #A variável letra vai perguntar ao usuario qual letra ele irá tentar digitar
+                letra = str(input('Digite uma letra: '))
+                #letra_final vai ser responsável de deixar toda letra que o usuário digitar maiúsculo
+                letra_final = letra.upper()
+                #Este if irá testar se o usuario digitou mais de um caractere ou nada, e caso aconteca ele ficara perguntando novamente ao usuario para digitar uma unica letra
+                if len(letra)> 1 or len(letra)==0:
+                    print('Erro')
+                    continue
+                #A lista digitadas irá adicionar as letras que o usuário digitar
+                digitadas.append(letra_final)
+                #secreto_temp vai ser uma variável que vai receber a palavra secreta
+                secreto_temp = ''
+                #Este for foi criado com o intuito de receber a palavra aleatória por completo, mas não mostrará ao usuário
+                for letra_secreta in var_p1:
+                    #Este if vai trocar os "*" pela letra que estiver correspondida a palavra secreta
+                    if letra_secreta in digitadas:
+                        secreto_temp += letra_secreta
+                    #Caso contrário ele não alterará a letra, pois não foi correspondida a palavra secreta e também ira adicionar os "*"
+                    else:
+                        secreto_temp += '*'
+                #Este if vai verificar se a letra que foi digitada estiver correta, vai ser adicionado 10 pontos ao usuário e exibir sua pontuação junto com umma mensagem de parabenização
+                if letra_final in var_p1:
+                    pontos+=10
+                    print('Seus pontos: ',pontos)
+                    print('Parabéns você acertou a letra!')
+                #Caso contrário ele perderá um ponto e será dito que ele errou e mostrará os seus pontos
+                elif letra_final not in var_p1:
+                    pontos-=1
+                    print('Seus pontos: ', pontos)
+                    print('Você errou!')
+                #Primeiramente foi estimado que entre o numero 20 e o numero 29 o usuário terá uma dica
+                if pontos == 20 or pontos == 21 or pontos == 22 or pontos == 23 or pontos == 24 or pontos == 26 or pontos == 25 or pontos == 27 or pontos == 28 or pontos == 29 :
+                    #Esse print vai exibir novamente a palavra secreta
+                    print(f'palavra: {secreto_temp}')
+                    #comando_dica vai perguntar ao usuário se ele deseja uma dica
+                    comando_dica = str(input('Deseja uma dica(Sim ou Não): '))
+                    #Se sim vai entrar nesse if mostrando a dica relacionada a palavra
+                    if comando_dica in ['Sim', 'sim','S','s']:
+                        #A dica vai ser estabelecida a partir do indice que foi atribuido a variavel dica
+                        print('Dica: ', dica_comida_pt[dica])
+                    #Caso ele ecreva que não o sistema irá só exibir uma mensagem
+                    elif comando_dica in ['Nao', 'nao','n']:
+                        print('Tudo Bem!')
+                    #E se ao acaso o usuário deixar vazio ou escrever outra palavra o sistema irá da uma repreensão
+                    else:
+                        print('Parece que você ignorou sua dica!')
+                #Este if vai testar se a letra digitada não pertencer a palavra secreta e caso não pertença ele vai diminuir suas chances
+                if letra_final not in var_p1:
+                    chances -=1
+                #Exibindo novamente suas chances
+                print('Suas chances: ',chances)
+                print('-='*20)
+                #Este vai testar se as chances for 0 caso seja é fim de jogo para o jogador e em consequência o jogo fechará
+                if chances <= 0:
+                    print('-='*20)
+                    print('Você perdeu!')
+                    print('Fim de Jogo')
+                    print('-='*20)
+                    break
+                #Este if vai testar se a palavra secreta é igual a palavra escolhida aleatóriamente caso sim parabeniza o usuário e fecha o jogo
+                if secreto_temp == var_p1:
+                    print('Parabéns você ganhou!', nome_usuario)
+                    print('Seus pontos adiquiridos: ', pontos)
+                    break
+                #caso contrario ele vai mostrar novamente ao usuário a palavra secreta
+                else:
+                    print(f'palavra: {secreto_temp}')
+        #Se ele escolher país, o programa irá então executar tudo que está desse if
+        elif tema in ['País','país', 'pais', 'Pais']:
+            #var_p1 vai receber uma palavra aleatória da lista tema_pais_pt e armazena-la
+            var_p1 = random.choice(tema_paises_pt)
+            #dica vai ser usado para armazenar o indice que se encontra a palavra aleatória na sua lista
+            dica = tema_paises_pt.index(var_p1)
+            #xd vai ser a palavra secreta inicial com o intuito de utilizar apenas uma vez, por motivos de ilustrar inicialmente
+            xd = ''
+            #Este for vai ser usado para gerar os "*" e atribuir a xd
+            for letra_inicial in var_p1:
+                xd+='*'
+            print('-='*20)
+            #Apresentando a palavra secreta
+            print(f'Esta é a palavra secreta: {xd}')
+            #Apresentando os pontos
+            print(f'Você tem: {pontos} pontos')
+            #Apresentando as chances
+            print(f'Você tem: {chances} chances')
+            #While responsável pelo jogo da forca
+            while True:
+                print('-='*20)
+                #A variável letra vai perguntar ao usuario qual letra ele irá tentar digitar
+                letra = str(input('Digite uma letra: '))
+                #letra_final vai ser responsável de deixar toda letra que o usuário digitar maiúsculo
+                letra_final = letra.upper()
+                #Este if irá testar se o usuario digitou mais de um caractere ou nada, e caso aconteca ele ficara perguntando novamente ao usuario para digitar uma unica letra
+                if len(letra)> 1 or len(letra)==0:
+                    print('Erro')
+                    continue
+                #A lista digitadas irá adicionar as letras que o usuário digitar
+                digitadas.append(letra_final)
+                #secreto_temp vai ser uma variável que vai receber a palavra secreta
+                secreto_temp = ''
+                #Este for foi criado com o intuito de receber a palavra aleatória por completo, mas não mostrará ao usuário
+                for letra_secreta in var_p1:
+                    #Este if vai trocar os "*" pela letra que estiver correspondida a palavra secreta
+                    if letra_secreta in digitadas:
+                        secreto_temp += letra_secreta
+                    #Caso contrário ele não alterará a letra, pois não foi correspondida a palavra secreta e também ira adicionar os "*"
+                    else:
+                        secreto_temp += '*'
+                #Este if vai verificar se a letra que foi digitada estiver correta, vai ser adicionado 10 pontos ao usuário e exibir sua pontuação junto com umma mensagem de parabenização
+                if letra_final in var_p1:
+                    pontos+=10
+                    print('Seus pontos: ',pontos)
+                    print('Parabéns você acertou a letra!')
+                #Caso contrário ele perderá um ponto e será dito que ele errou e mostrará os seus pontos
+                elif letra_final not in var_p1:
+                    pontos-=1
+                    print('Seus pontos: ', pontos)
+                    print('Você errou!')
+                #Primeiramente foi estimado que entre o numero 20 e o numero 29 o usuário terá uma dica
+                if pontos == 20 or pontos == 21 or pontos == 22 or pontos == 23 or pontos == 24 or pontos == 26 or pontos == 25 or pontos == 27 or pontos == 28 or pontos == 29 :
+                    #Esse print vai exibir novamente a palavra secreta
+                    print(f'palavra: {secreto_temp}')
+                    #comando_dica vai perguntar ao usuário se ele deseja uma dica
+                    comando_dica = str(input('Deseja uma dica(Sim ou Não): '))
+                    #Se sim vai entrar nesse if mostrando a dica relacionada a palavra
+                    if comando_dica in ['Sim', 'sim','S','s']:
+                        #A dica vai ser estabelecida a partir do indice que foi atribuido a variavel dica
+                        print('Dica: ', dica_paises_pt[dica])
+                    #Caso ele ecreva que não o sistema irá só exibir uma mensagem
+                    elif comando_dica in ['Nao', 'nao','n']:
+                        print('Tudo Bem!')
+                    #E se ao acaso o usuário deixar vazio ou escrever outra palavra o sistema irá da uma repreensão
+                    else:
+                        print('Parece que você ignorou sua dica!')
+                #Este if vai testar se a letra digitada não pertencer a palavra secreta e caso não pertença ele vai diminuir suas chances
+                if letra_final not in var_p1:
+                    chances -= 1
+                #Exibindo novamente suas chances
+                print('Suas chances: ',chances)
+                print('-='*20)
+                #Este vai testar se as chances for 0 caso seja é fim de jogo para o jogador e em consequência o jogo fechará
+                if chances <= 0:
+                    print('-='*20)
+                    print('Você perdeu!')
+                    print('Fim de Jogo')
+                    print('-='*20)
+                    break
+                #Este if vai testar se a palavra secreta é igual a palavra escolhida aleatóriamente caso sim parabeniza o usuário e fecha o jogo
+                if secreto_temp == var_p1:
+                    print('Parabéns você ganhou!', nome_usuario)
+                    print('Seus pontos adiquiridos: ', pontos)
+                    break
+                #caso contrario ele vai mostrar novamente ao usuário a palavra secreta
+                else:
+                    print(f'palavra: {secreto_temp}')
+        #Se ele escolher veículo, o programa irá então executar tudo que está desse if
+        elif tema in ['Veículos','veículos', 'veiculo', 'Veiculo', 'Veiculos','veiculos','Veículo','veículo']:
+            #var_p1 vai receber uma palavra aleatória da lista tema_veiculos_pt e armazena-la
+            var_p1 = random.choice(tema_veiculos_pt)
+            #dica vai ser usado para armazenar o indice que se encontra a palavra aleatória na sua lista
+            dica = tema_veiculos_pt.index(var_p1)
+            #xd vai ser a palavra secreta inicial com o intuito de utilizar apenas uma vez, por motivos de ilustrar inicialmente
+            xd = ''
+            #Este for vai ser usado para gerar os "*" e atribuir a xd
+            for letra_inicial in var_p1:
+                xd+='*'
+            print('-='*20)
+            #Apresentando a palavra secreta
+            print(f'Esta é a palavra secreta: {xd}')
+            #Apresentando os pontos
+            print(f'Você tem: {pontos} pontos')
+            #Apresentando as chances
+            print(f'Você tem: {chances} chances')
+            #While responsável pelo jogo da forca
+            while True:
+                print('-='*20)
+                #A variável letra vai perguntar ao usuario qual letra ele irá tentar digitar
+                letra = str(input('Digite uma letra: '))
+                #letra_final vai ser responsável de deixar toda letra que o usuário digitar maiúsculo
+                letra_final = letra.upper()
+                #Este if irá testar se o usuario digitou mais de um caractere ou nada, e caso aconteca ele ficara perguntando novamente ao usuario para digitar uma unica letra
+                if len(letra)> 1 or len(letra)==0:
+                    print('Erro')
+                    continue
+                #A lista digitadas irá adicionar as letras que o usuário digitar
+                digitadas.append(letra_final)
+                #secreto_temp vai ser uma variável que vai receber a palavra secreta
+                secreto_temp = ''
+                #Este for foi criado com o intuito de receber a palavra aleatória por completo, mas não mostrará ao usuário
+                for letra_secreta in var_p1:
+                    #Este if vai trocar os "*" pela letra que estiver correspondida a palavra secreta
+                    if letra_secreta in digitadas:
+                        secreto_temp += letra_secreta
+                    #Caso contrário ele não alterará a letra, pois não foi correspondida a palavra secreta e também ira adicionar os "*"
+                    else:
+                        secreto_temp += '*'
+                #Este if vai verificar se a letra que foi digitada estiver correta, vai ser adicionado 10 pontos ao usuário e exibir sua pontuação junto com umma mensagem de parabenização
+                if letra_final in var_p1:
+                    pontos+=10
+                    print('Seus pontos: ',pontos)
+                    print('Parabéns você acertou a letra!')
+                #Caso contrário ele perderá um ponto e será dito que ele errou e mostrará os seus pontos
+                elif letra_final not in var_p1:
+                    pontos-=1
+                    print('Seus pontos: ', pontos)
+                    print('Você errou!')
+                #Primeiramente foi estimado que entre o numero 20 e o numero 29 o usuário terá uma dica
+                if pontos == 20 or pontos == 21 or pontos == 22 or pontos == 23 or pontos == 24 or pontos == 26 or pontos == 25 or pontos == 27 or pontos == 28 or pontos == 29 :
+                    #Esse print vai exibir novamente a palavra secreta
+                    print(f'palavra: {secreto_temp}')
+                    #comando_dica vai perguntar ao usuário se ele deseja uma dica
+                    comando_dica = str(input('Deseja uma dica(Sim ou Não): '))
+                    #Se sim vai entrar nesse if mostrando a dica relacionada a palavra
+                    if comando_dica in ['Sim', 'sim','S','s']:
+                        #A dica vai ser estabelecida a partir do indice que foi atribuido a variavel dica
+                        print('Dica: ', dica_veiculos_pt[dica])
+                    #Caso ele ecreva que não o sistema irá só exibir uma mensagem
+                    elif comando_dica in ['Nao', 'nao','n']:
+                        print('Tudo Bem!')
+                    #E se ao acaso o usuário deixar vazio ou escrever outra palavra o sistema irá da uma repreensão
+                    else:
+                        print('Parece que você ignorou sua dica!')
+                #Este if vai testar se a letra digitada não pertencer a palavra secreta e caso não pertença ele vai diminuir suas chances
+                if letra_final not in var_p1:
+                    chances -= 1
+                #Exibindo novamente suas chances
+                print('Suas chances: ',chances)
+                print('-='*20)
+                #Este vai testar se as chances for 0 caso seja é fim de jogo para o jogador e em consequência o jogo fechará
+                if chances <= 0:
+                    print('-='*20)
+                    print('Você perdeu!')
+                    print('Fim de Jogo')
+                    print('-='*20)
+                    break
+                #Este if vai testar se a palavra secreta é igual a palavra escolhida aleatóriamente caso sim parabeniza o usuário e fecha o jogo
+                if secreto_temp == var_p1:
+                    print('Parabéns você ganhou!', nome_usuario)
+                    print('Seus pontos adiquiridos: ', pontos)
+                    break
+                #caso contrario ele vai mostrar novamente ao usuário a palavra secreta
+                else:
+                    print(f'palavra: {secreto_temp}')
+    #Se o usuário digitar sair o jogo fechará e o programa finalizar
+    elif comando in ['Sair','sair']:
+        print('Jogo Fechado')
+        break
+    #else criado para digitar os comandos expostos
+    else:
+        continue
+    #Finalizando o programndo
+    if chances <= 0:
+        break
+    #Finalizando o programa
+    if secreto_temp == var_p1:
+        break
